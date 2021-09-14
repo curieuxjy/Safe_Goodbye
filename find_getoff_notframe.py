@@ -1,5 +1,5 @@
-f = open("D:\\work\\trainc\\get_off_all.txt", 'r')
-f2 = open("D:\\work\\trainc\\get_off_notframe.txt", 'w')
+f = open("D:\\work\\valid\\get_off_all.txt", 'r')
+f2 = open("D:\\work\\valid\\get_off_notframe.txt", 'w')
 notframe=set()
 while True:
     line = f.readline()

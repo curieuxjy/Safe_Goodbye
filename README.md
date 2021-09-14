@@ -5,7 +5,21 @@
     - [village]day_001B
     - [mid_high]attend_162C
     - D:\work\trainc\label\ele\[ele]attend_270C 제거
+    - D:\work\trainc\label\etc\[etc]attend_154C 제거
+    - D:\work\trainc\label\hospital\[hospital]attend_392C 제거
+    - D:\work\trainc\label\hospital\[hospital]leave_251C
+    
+```
 
+type 1
+[hospital]attend_067C
+
+type 2
+[mid_high]leave_354C
+
+```
+
+    
 ## Reference
 ### Baseline
 - [Unified Framework for Pedestrian Detection & Intention Classification](https://github.com/mjpramirez/Volvo-DataX)
@@ -13,7 +27,7 @@
 
 ### OD+Tracking
 - [Yolov5 + Deep Sort with PyTorch](https://github.com/mikel-brostrom/Yolov5_DeepSort_Pytorch)
-    - `python track.py --source testb3.mp4 --yolo_weights yolov5/weights/crowdhuman_yolov5m.pt --classes 0 --save-txt --save-vid`
+    - `python track.py --source [village]day_001B.mp4 --yolo_weights yolov5/weights/crowdhuman_yolov5m.pt --classes 0 --save-txt --save-vid`
     - `frame_idx, id, bbox_left, bbox_top, bbox_w, bbox_h, -1, -1, -1, -1)`
 - [YOLOv4-Cloud-Tutorial](https://github.com/theAIGuysCode/YOLOv4-Cloud-Tutorial)
 

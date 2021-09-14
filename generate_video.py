@@ -4,7 +4,7 @@ from operator import itemgetter
 import cv2
 from tqdm import tqdm 
 
-f = open("D:\\work\\trainc\\get_off_notframe.txt", 'r')
+f = open("D:\\work\\valid\\get_off_notframe.txt", 'r')
 a_list = []
 while True:
     line = f.readline()
@@ -20,7 +20,7 @@ for i in tqdm(a_list):
     num_list = [i[:-4].split("_")[-1] for i in paths]
     # pathIn= "D:\\work\\trainb\\label\\district\\[district]day_440B\\"
     name = i.split("\\")[-1]
-    pathOut = 'D:\\work\\trainc\\video\\'+name+".mp4"
+    pathOut = 'D:\\work\\valid\\video\\'+name+".mp4"
     fps = 15
 
     before=[]

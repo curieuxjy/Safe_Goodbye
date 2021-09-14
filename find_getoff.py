@@ -3,7 +3,7 @@ from os import walk
 import os
 from tqdm import tqdm
 
-label_path= "D:\\work\\trainb\\label"
+label_path= "D:\\work\\train\\label"
 
 label_folder=[]
 for (dirpath, dirnames, filenames) in tqdm(walk(label_path)):
@@ -62,7 +62,7 @@ print("There are {} labels with more than one get off".format(len(get_off_label)
 print("-"*30)
 
 print(">> Writing get_off_all.txt")
-f = open("D:\\work\\trainb\\get_off_all.txt", "w")
+f = open("D:\\work\\train\\get_off_all.txt", "w")
 for i in get_off_label:
     # print(get_off_label[i])
     label_one_path = i+"\n"
@@ -72,7 +72,7 @@ f.close()
 indices = [i for i, x in enumerate(get_off_list) if x > 1]
 
 print(">> Writing get_off_find.txt")
-f = open("D:\\work\\trainb\\get_off_find.txt", "w")
+f = open("D:\\work\\train\\get_off_find.txt", "w")
 for i in indices:
     # print(get_off_label[i])
     label_one_path = get_off_label[i]+"\n"
