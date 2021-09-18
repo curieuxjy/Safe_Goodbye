@@ -2,79 +2,99 @@ import json
 from os import walk
 import os
 from tqdm import tqdm
+from operator import itemgetter
 
-label_path= "D:\\work\\train\\label"
+label_path= "D:\\data\\train\\label"
 
-label_folder=[]
-for (dirpath, dirnames, filenames) in tqdm(walk(label_path)):
-    label_folder.append((dirpath, dirnames, filenames)) # directory
+def sort_numbering(file_list):
+    before=[]
+    for i, js in enumerate(file_list):
+        num = js.split("_")[-1].split(".")[0].zfill(3)
+        before.append((js, num))
+    after = sorted(before,key=itemgetter(1))
+    after = [i[0] for i in after]
+    return after
 
-clean=[]
-for i in tqdm(range(len(label_folder))):
-    if len(label_folder[i][0].split("\\"))<6:
-        pass
-    else:
-        clean.append(label_folder[i])
-
-# checking
-for i in range(len(clean)):
-    if clean[i][1]!=[]:
-        print("nope")
-    else:
-        clean[i] = (clean[i][0], clean[i][2])
-
-
-label_list=[]
-for root, files in clean:
-    root_path=root
-    for file in files:
-        image_path = root+"\\"+file
-        label_list.append(image_path)
-
-print("You have {} labels in {}".format(len(label_list), label_path))
-
-get_off_list=[]
-get_off_label=[]
-for path in tqdm(label_list):
-    with open(path, "r") as st_json:
-        data = json.load(st_json)
+def find_filelist(label_path):
+    label_folder=[]
+    for (dirpath, dirnames, filenames) in walk(label_path):
+        label_folder.append((dirpath, dirnames, filenames))
         
-        # 데이터 없는 사진은 제외
-        if data["annotations"]==[]:
-            pass
-        else:
-            is_getoff_true=0
-            for i in range(len(data["annotations"])):
-                # 겟오프 부분만 가져와서
-                get_off = data["annotations"][i]["get_off"]
-                # 하차하는 사람이 있다면
-                if get_off == True:
-                    is_getoff_true+= 1
-                    
-            if is_getoff_true != 0:
-                get_off_label.append(path) # 1번 이상 어노테이션 되어 있는 데이터 라벨
-                get_off_list.append(is_getoff_true) # 몇번 true로 어노테이션 되어 있는지
+    label_folder = [[i[0], i[2]] for i in label_folder if i[1]==[]]
+    # folder-scene, frame
 
-assert len(get_off_list) == len(get_off_label) 
-print("-"*30)
-print("There are {} get off(True) labels.".format(sum(get_off_list)))
-print("There are {} labels with more than one get off".format(len(get_off_label)))
-print("-"*30)
+    for i in range(len(label_folder)):
+        jsons = label_folder[i][1]
+        label_folder[i][1] = sort_numbering(jsons)
+    # sorting done
+    # LABEL_FOLDER  
+    # [[folder-scene], [frame list(.json)]]
+    # ['D:\\data\\train\\label\\apt\\[apt]attend_010C',
+    #           ['[apt]attend_010C_0.json','[apt]attend_010C_2.json', ...]]
 
-print(">> Writing get_off_all.txt")
-f = open("D:\\work\\train\\get_off_all.txt", "w")
-for i in get_off_label:
-    # print(get_off_label[i])
-    label_one_path = i+"\n"
-    f.write(label_one_path)
-f.close()
+    label_list = []
+    for scene, frames in label_folder:
+        scene_label = [scene+"\\"+frame for frame in frames]
+        label_list.extend(scene_label)
 
-indices = [i for i, x in enumerate(get_off_list) if x > 1]
+    print("You have {} scenes in {}".format(len(label_folder), label_path))
+    print("You have {} frames in {}".format(len(label_list), label_path))
 
-print(">> Writing get_off_find.txt")
-f = open("D:\\work\\train\\get_off_find.txt", "w")
-for i in indices:
-    # print(get_off_label[i])
-    label_one_path = get_off_label[i]+"\n"
-    f.write(label_one_path)
-f.close()
+    return label_folder, label_list
+
+def find_getoff(label_folder):
+    
+    num_getoff_ppl=[]
+    num_not_getoff_ppl=[]
+
+    for scene, frames in label_folder:
+        scene_label = [scene+"\\"+frame for frame in frames]
+        getoff_person_id=set()
+        not_getoff_person_id=set()
+
+        for path in scene_label:
+            with open(path, "r") as js:
+                data = json.load(js)
+                
+                # 데이터 없는 사진은 제외
+                if data["annotations"]==[]:
+                    pass
+                else:
+                    for i in range(len(data["annotations"])):
+                        get_off = data["annotations"][i]["get_off"]
+                        person_id = data["annotations"][i]["id"]
+                        if get_off == True:
+                            getoff_person_id.add(person_id)
+                        else:
+                            not_getoff_person_id.add(person_id)
+
+        num_getoff_ppl.append(len(getoff_person_id))
+        num_not_getoff_ppl.append(len(not_getoff_person_id))
+
+    assert len(num_getoff_ppl)==len(num_not_getoff_ppl)
+    print("-"*30)
+    print("There are {} get off people.".format(sum(num_getoff_ppl)))
+    print("There are {} NOT get off people.".format(sum(num_not_getoff_ppl)))
+    print("-"*30)
+
+# def write_txt(input_list, file_name, indices=False, indices=None):
+
+#     print(">> Writing {}.txt".format(file_name))
+#     f = open("D:\\work\\train\\{}.txt".format(file_name), "w")
+#     if indices:
+#         for i in indices:
+#             one_data = input_list[i]+"\n"
+#             f.write(one_data)
+#         f.close()
+#     else:
+#         for i in input_list:
+#             one_data = i+"\n"
+#             f.write(one_data)
+#         f.close()
+
+if __name__ =="__main__":
+    label_folder, label_list = find_filelist(label_path)
+    find_getoff(label_folder)
+    # indices = [i for i, x in enumerate(get_off_list) if x > 1]
+    # write_txt(get_off_label, file_name="get_off")
+    # write_txt(get_off_label, file_name="get_off_over1", indices=True, indices=indices)
