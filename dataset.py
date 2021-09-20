@@ -94,6 +94,6 @@ class BusDataset(Dataset):
 
 if __name__ == "__main__":
 
-    a = BusDataset("D:\\work\\train\\label", "D:\\work\\train\\image")
+    a = BusDataset("D:\\data\\train\\label", "D:\\data\\train\\image")
     print(a.__len__())
     print(a.__getitem__(0))
