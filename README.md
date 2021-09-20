@@ -1,17 +1,19 @@
 # Arrival_project
 
 ## Dataset
-- [자율주행 - 버스 승객 승하차 영상](https://aihub.or.kr/aidata/34166) : Camera C (General C)
-    - Removed List
-    ```
-    ...\ele\[ele]attend_270C
-    ...\etc\[etc]attend_154C
-    ...\hospital\[hospital]attend_392C
-    ...\hospital\[hospital]leave_251C
-    ```
-- Target
+### [자율주행 - 버스 승객 승하차 영상](https://aihub.or.kr/aidata/34166) : Camera C (General C)
+- Removed List
+```
+...\ele\[ele]attend_270C
+...\etc\[etc]attend_154C
+...\hospital\[hospital]attend_392C
+...\hospital\[hospital]leave_251C
+```
+- Target(demonstration result)
 
 ```
+reselecting
+
 type 1
 [hospital]attend_067C
 
@@ -23,12 +25,22 @@ type 2
 - 하차 전 약 35프레임에서의 각 사람의 skeleton data를 time series data로 만들어서 하차할 것인지 하차하지 않을 것인지 Intention Prediction
 
 ## TODO
-[] 데이터 분석
-[] 데이터셋 클래스
-[] 간단한 lstm 모델
-[] 시각화
-[] TF multi pose 모델이랑 연결
-    
+- [] 데이터 분석
+- [] 데이터셋 클래스
+- [] 간단한 lstm 모델
+- [] 시각화
+- [] TF multi pose 모델이랑 연결
+
+## Repo에 있는 코드 설명
+- `check_people.py`:
+- `find_getoff.py`:
+- `cutoff_box.py`:
+- `simple_dataset.py`: 각 사람(id)별 키포인트 시계열 데이터로 가져오기
+- `train.py`: simple lstm model로 training
+- `inference.py`: 
+- `generate_video.py`:
+- `tf2_multipose.py`:
+
 ## Reference
 ### Baseline
 - [Unified Framework for Pedestrian Detection & Intention Classification](https://github.com/mjpramirez/Volvo-DataX)
