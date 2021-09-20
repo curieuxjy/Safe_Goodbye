@@ -1,5 +1,5 @@
 # Arrival_project
-![](poster.png)
+![](./assets/poster.png)
 
 ## Dataset
 ### [자율주행 - 버스 승객 승하차 영상](https://aihub.or.kr/aidata/34166) : Camera C (General C)
