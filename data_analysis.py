@@ -187,3 +187,12 @@ if __name__=="__main__":
     print(">> Finding GET OFF people")
     train_getoff, train_not_getoff = find_getoff(train_labels)
     valid_getoff, valid_not_getoff = find_getoff(valid_labels)
+
+    alpha = 0.5
+    index = ["Train", "Valid"]
+    p1 = plt.bar(index, [train_getoff, valid_getoff], color='b', alpha=alpha)
+    p2 = plt.bar(index, [train_not_getoff, valid_not_getoff], color='r', alpha=alpha, bottom=[train_getoff, valid_getoff]) # stacked bar chart
+    plt.legend((p1[0], p2[0]), ("Get off True", "Get off False"), fontsize=15)
+    plt.title('Get off ratio in Train/Valid dataset', fontsize=20)
+    plt.savefig(".\\assets\\get_off_ratio.png")
+    plt.clf()
