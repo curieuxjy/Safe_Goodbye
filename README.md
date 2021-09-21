@@ -22,6 +22,13 @@ type 2
 [mid_high]leave_354C
 
 ```
+![](./assets/check_frame.png)
+
+![](./assets/people_in_one_scene_train.png)
+![](./assets/people_in_one_scene_valid.png)
+![](./assets/people_in_one_frame_train.png)
+![](./assets/people_in_one_frame_valid.png)
+
 ## Modeling
 - 하차 전 약 35프레임에서의 각 사람의 skeleton data를 time series data로 만들어서 하차할 것인지 하차하지 않을 것인지 Intention Prediction
 
