@@ -1,5 +1,6 @@
 import json
 from os import walk
+import os
 import csv
 from tqdm import tqdm
 from operator import itemgetter
@@ -19,19 +20,16 @@ def read_txt(txt_path, train=True):
             a_list.append((dirpath, filenames))
             frames.append(len(filenames))
     f.close()
-    if train:
-        tag = "train"
-    else:
-        tag = "valid"
-
-    print("{} scenes {} frames in {} dataset".format(len(a_list), sum(frames), tag))
+    tag = "train" if train else "valid"
+    print("=== {} scenes {} frames in {} dataset ===".format(len(a_list), sum(frames), tag.upper()))
     return a_list
 
 def check_people(label_folder, train=True):
     people_in_one_scene = []
 
     for scene, frames in tqdm(label_folder):
-        frame_label = [scene+"\\"+frame for frame in frames]
+        frames_50 = frames[:50] # cut in 50 frames
+        frame_label = [scene+"\\"+frame for frame in frames_50]
         max_person=-1
 
         for path in frame_label:
@@ -64,64 +62,60 @@ def calculate_angle(keypoint):
 def write_csv(label_folder, people_in_one_scene_list, train=True):
     assert len(label_folder)==len(people_in_one_scene_list)
 
-    for i, (scene, frames) in tqdm(enumerate(label_folder)):
-        one_dict=dict()
-        one_dict["scene"] = scene.split("\\")[-1]
-        frames_50 = frames[:50] # cut in 50 frames
-        frame_label = [scene+"\\"+frame for frame in frames_50]
+    tag = "train" if train else "valid"
+    total_dict_list=[]
 
-        dict_list=[]
-        # print(people_in_one_scene_list)
-        if people_in_one_scene_list[i] == -1:
-            pass
-        else:
-            for person in range(people_in_one_scene_list[i]): # num ppl
-                # print(person)
-                id_dict = one_dict.copy()
-                id_dict["id"]=person
-                id_dict["keypoints"]=[]
-                id_dict["frame_num"]=[]
-                id_dict["angles"]=[]
-                id_dict["get_off"]=[]
-                dict_list.append(id_dict)
-            # dict_list
-            # [one_list(id==0), one_list(id==1), one_list(id==2), ...] 
-            # len(dict_list) == people_in_one_scene
-
-            for f_index, path in enumerate(frame_label):
-                with open(path, "r") as js:
-                    data = json.load(js)
-
-                if data["annotations"]==[]:
-                    pass
-                else:
-                    for anno in range(len(data["annotations"])):
-                        one_anno = data["annotations"][anno]
-                        person_id = one_anno["id"] # 해당 사람 찾기
-                        print("-"*100)
-                        print(len(dict_list))
-                        print(person_id)
-                        print(dict_list[person_id]["scene"])
-                        print(dict_list[person_id]["frame_num"])
-                        print(dict_list[person_id]["id"], one_anno["id"])
-                        assert dict_list[person_id]["id"] == one_anno["id"]
-                        # print(dict_list[person_id])
-                        dict_list[person_id]["keypoints"].append(one_anno["keypoints"])
-                        dict_list[person_id]["get_off"].append(one_anno["get_off"])
-                        dict_list[person_id]["frame_num"].append(f_index)
-                        angle = calculate_angle(one_anno["keypoints"])
-                        dict_list[person_id]["angles"].append(angle)
-    if train:
-        tag = "train"
-    else:
-        tag = "valid"
-
-    with open('./tmp_{}.csv'.format(tag), 'a', newline='') as csvfile:
-        fieldnames = ["scene", "id", "frame_num", "keypoints", "angles"]
+    with open("D:\\data\\{0}\\{0}.csv".format(tag), 'w', newline='') as csvfile:
+        fieldnames = ["scene", "id", "frame_num", "keypoints", "angles", "get_off"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
+        empty_dict=dict()
+        for i, (scene, frames) in tqdm(enumerate(label_folder)):
+            one_dict = empty_dict.copy()
+            one_dict["scene"] = scene.split("\\")[-1]
+            frames_50 = frames[:50] # cut in 50 frames
+            frame_label = [scene+"\\"+frame for frame in frames_50]
+            
+            dict_list=[]
+            if people_in_one_scene_list[i] == -1:
+                pass
+            else:
+                for person in range(people_in_one_scene_list[i]+1): # num ppl
+                    id_dict = one_dict.copy()
+                    id_dict["id"]=person
+                    id_dict["keypoints"]=[]
+                    id_dict["frame_num"]=[]
+                    id_dict["angles"]=[]
+                    id_dict["get_off"]=[]
+                    dict_list.append(id_dict)
+                # dict_list
+                # [one_list(id==0), one_list(id==1), one_list(id==2), ...] 
+                # len(dict_list) == people_in_one_scene
+
+                for f_index, path in enumerate(frame_label):
+                    with open(path, "r") as js:
+                        data = json.load(js)
+
+                    if data["annotations"]==[]:
+                        pass
+                    else:
+                        for anno in range(len(data["annotations"])):
+                            one_anno = data["annotations"][anno]
+                            person_id = one_anno["id"] # find exactly THE PERSON
+                            assert dict_list[person_id]["id"] == one_anno["id"]
+                            # keypoints
+                            dict_list[person_id]["keypoints"].append(one_anno["keypoints"])
+                            # get_off
+                            dict_list[person_id]["get_off"].append(one_anno["get_off"])
+                            # frame_num
+                            dict_list[person_id]["frame_num"].append(f_index)
+                            # angles
+                            angle = calculate_angle(one_anno["keypoints"])
+                            dict_list[person_id]["angles"].append(angle)
+            total_dict_list.extend(dict_list)
+
         writer.writeheader()
-        for one_data in dict_list:
+        for one_data in total_dict_list:
             writer.writerow(one_data)
 
 def sort_numbering(file_list):
@@ -173,6 +167,14 @@ def find_filelist_50(txt_path, train=True):
 
     return label_folder, label_list_50
 
+def check_dataset(csv_path, num:int):
+    with open(csv_path, newline='') as file:
+        reader = csv.reader(file)
+
+        for idx, row in enumerate(reader):
+            if idx<num:
+                print(row)
+
 if __name__=="__main__":
 
     train_label_folder, train_label_list_50 = find_filelist_50("D:\\data\\train\\train_total.txt", train=True)
@@ -186,3 +188,6 @@ if __name__=="__main__":
     write_csv(train_label_folder, people_in_one_scene_train, train=True)
     print("Writing valid CSV")
     write_csv(valid_label_folder, people_in_one_scene_valid, train=False)
+
+    # check_dataset("D:\\data\\train\\train.csv", 2)
+    # check_dataset("D:\\data\\valid\\valid.csv", 2)

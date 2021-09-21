@@ -4,7 +4,6 @@ import os
 from tqdm import tqdm
 from operator import itemgetter
 
-label_path= "D:\\data\\train\\label"
 
 def sort_numbering(file_list):
     before=[]
@@ -43,4 +42,6 @@ def find_filelist(label_path):
     return label_folder, label_list
 
 if __name__=="__main__":
+    
+    label_path= "D:\\data\\train\\label"
     find_filelist(label_path)
