@@ -47,7 +47,7 @@ def read_txt(txt_path, train=True):
     print("{} scenes {} frames in {} dataset".format(len(a_list), sum(frames), tag))
     return a_list
 
-def caculate_frame_num(label_folder,
+def calculate_frame_num(label_folder,
                         MIN, MAX,
                         train=True):
     num_frame=[]
@@ -72,8 +72,10 @@ def check_frame(train_frames, valid_frames):
     # dataframe
     num_frame = pd.concat([train_frames, valid_frames], axis=1)
     sns_plot = sns.histplot(data=num_frame, kde=True)
+    sns_plot.set_title("The Number of frames in one scene")
     fig = sns_plot.get_figure()
     fig.savefig(".\\assets\\check_frame.png")
+    fig.clf()
 
 def check_people_plot(people_in_one_scene, people_in_one_frame, tag):
     sns_plot_scene = sns.histplot(data=people_in_one_scene,x="people_in_one_scene", discrete=True, shrink=.8)
@@ -170,10 +172,10 @@ if __name__=="__main__":
     train_label_folder, train_label_list = find_filelist(train_label_path)
     valid_label_folder, valid_label_list = find_filelist(valid_label_path)
 
-    train_frames, train_scene_list = caculate_frame_num(train_label_folder, MIN=MIN, MAX=MAX, train=True)
+    train_frames, train_scene_list = calculate_frame_num(train_label_folder, MIN=MIN, MAX=MAX, train=True)
     print(train_frames.describe())
     write_txt(train_scene_list, "train_total", train=True)
-    valid_frames, valid_scene_list = caculate_frame_num(valid_label_folder, MIN=MIN, MAX=MAX, train=False)
+    valid_frames, valid_scene_list = calculate_frame_num(valid_label_folder, MIN=MIN, MAX=MAX, train=False)
     print(valid_frames.describe())
     write_txt(valid_scene_list, "valid_total", train=False)
     check_frame(train_frames, valid_frames)
