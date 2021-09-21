@@ -35,10 +35,11 @@ type 2
 - 하차 전 약 35프레임에서의 각 사람의 skeleton data를 time series data로 만들어서 하차할 것인지 하차하지 않을 것인지 Intention Prediction
 
 ## TODO
-- [ ] 데이터 분석
+- [x] 데이터 분석
     - [x] 결점 데이터 제거
-    - [ ] get off가 True vs. False인 사람 비율
-    - [ ] 한 frame 당/ scene 당 나타나는 사람 수 비율
+    - [x] get off가 True vs. False인 사람 비율
+    - [x] 한 frame 당/ scene 당 나타나는 사람 수 비율
+- [ ] 모델에 맞는 csv 데이터 셋 만들기
 - [ ] 데이터셋 클래스
 - [ ] 간단한 lstm 모델
 - [ ] 시각화
@@ -72,3 +73,6 @@ type 2
 - [Deep High-Resolution Representation Learning for Human Pose Estimation (CVPR 2019)](https://github.com/leoxiaobin/deep-high-resolution-net.pytorch)
 - [Multi Person PoseEstimation By PyTorch](https://github.com/tensorboy/pytorch_Realtime_Multi-Person_Pose_Estimation)
     - `python Demo_video.py -backbone {CMU or Mobilenet} -video {video path} -scale {scale to image} -show {}`
+
+### ETC
+- [2021 인공지능 데이터 기반 서비스 공모전(09.15~10.08)](http://aihub-competition.or.kr/aidea)

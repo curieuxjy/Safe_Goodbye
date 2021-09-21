@@ -41,3 +41,6 @@ def find_filelist(label_path):
     print("You have {} frames in {}".format(len(label_list), label_path))
 
     return label_folder, label_list
+
+if __name__=="__main__":
+    find_filelist(label_path)
