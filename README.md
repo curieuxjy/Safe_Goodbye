@@ -26,11 +26,14 @@ type 2
 - 하차 전 약 35프레임에서의 각 사람의 skeleton data를 time series data로 만들어서 하차할 것인지 하차하지 않을 것인지 Intention Prediction
 
 ## TODO
-- [] 데이터 분석
-- [] 데이터셋 클래스
-- [] 간단한 lstm 모델
-- [] 시각화
-- [] TF multi pose 모델이랑 연결
+- [ ] 데이터 분석
+    - [x] 결점 데이터 제거
+    - [ ] get off가 True vs. False인 사람 비율
+    - [ ] 한 frame 당/ scene 당 나타나는 사람 수 비율
+- [ ] 데이터셋 클래스
+- [ ] 간단한 lstm 모델
+- [ ] 시각화
+- [ ] TF multi pose 모델이랑 연결
 
 ## Repo에 있는 코드 설명
 - `check_people.py`:
@@ -43,6 +46,9 @@ type 2
 - `tf2_multipose.py`:
 
 ## Reference
+- [Scale invariant angle label](https://matplotlib.org/stable/gallery/text_labels_and_annotations/angle_annotation.html#sphx-glr-gallery-text-labels-and-annotations-angle-annotation-py)
+- [seaborn.histplot](https://seaborn.pydata.org/generated/seaborn.histplot.html)
+
 ### Baseline
 - [Unified Framework for Pedestrian Detection & Intention Classification](https://github.com/mjpramirez/Volvo-DataX)
 - [FuSSI-Net: Fusion of Spatio-temporal Skeletons for Intention Prediction Network](https://matthew29tang.github.io/pid-model/#/)
