@@ -38,6 +38,8 @@ type 2
 ## Modeling
 - 하차 전 약 35프레임에서의 각 사람의 skeleton data를 time series data로 만들어서 하차할 것인지 하차하지 않을 것인지 Intention Prediction
 
+![](./assets/skeleton.png)
+
 ## TODO
 - [x] 데이터 분석
     - [x] 결점 데이터 제거
