@@ -3,6 +3,10 @@ from os import walk
 import os
 from tqdm import tqdm
 from operator import itemgetter
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 
 body_points_tag = ["r_ankle", "r_knee", "r_hip", "l_hip", "l_knee", "l_ankle", "hip", "chest", "neck",
                     "head", "r_wrist", "r_elbow", "r_shoulder", "l_shoulder", "l_elbow", "l_wrist"]
@@ -42,15 +46,32 @@ ankles = [(9, 8, 7),
           (6, 3, 4),
           (3, 4, 5)]
 
-def calculate_angle(left_point, center_point, right_point):
-    return angle
+def angle_between(p1, p2):  
+    # 두점 사이의 각도:(getAngle3P 계산용) 
+    # 시계 방향으로 계산한다. 
+    # P1-(0,0)-P2의 각도를 시계방향으로
+    ang1 = np.arctan2(*p1[::-1])
+    ang2 = np.arctan2(*p2[::-1])
+    res = np.rad2deg((ang1 - ang2) % (2 * np.pi))
+    return res
+
+def getAngle3P(p1, p2, p3, direction="CW"): 
+    #세점 사이의 각도 1->2->3
+    pt1 = (p1[0] - p2[0], p1[1] - p2[1])
+    pt2 = (p3[0] - p2[0], p3[1] - p2[1])
+    res = angle_between(pt1, pt2)
+    res = (res + 360) % 360
+    if direction == "CCW":
+        #반시계방향
+        res = (360 - res) % 360
+    return res
 
 def draw_keypoints(image,
                    keypoints,
                    edges= None,
                    ankles= None,
                    keypoint_names= None,
-                   dpi: int = 200):
+                   dpi= 96*2.295):
     """
     Args:
         image (ndarray): [H, W, C]
@@ -99,13 +120,34 @@ def draw_keypoints(image,
     ax.imshow(image)
     ax.axis('off')
     plt.show()
-    fig.savefig('example.png')
+    fig.savefig('./example.jpg')
 
-def cut_bbox():
-    return crop_img # n
+def cut_image(data):
+    bbox1 = data["bbox"][0]
+    bbox2 = data["bbox"][1]
+    bbox3 = data["bbox"][2]
+    bbox4 = data["bbox"][3]
+    h = bbox4 - bbox2
+    w = bbox3 - bbox1
+    y = bbox2
+    x = bbox1
+    # height, width, layers = img.shape
+    crop_img = img[y:y+h, x:x+w]
+    return crop_img 
 
-def mod_keypoints():
-    return mod_keypoint
+def get_keypoint(data):
+    keypoints = data['keypoints']
+    xs = [d for i, d in enumerate(keypoints) if i%3==0]
+    ys = [d for i, d in enumerate(keypoints) if i%3==1]
+    xs_mod = [x-bbox1 for x in xs]
+    ys_mod = [y-bbox2 for y in ys]
+    return xs, ys, xs_mod, ys_mod
+
+def get_mod_keypoint(xs_mod, ys_mod):
+    body_points={}
+    for i in range(len(xs_mod)):
+        body_points[body_points_tag[i]] = (xs_mod[i], ys_mod[i])
+    return body_points
 
 def sort_numbering(file_list):
     before=[]
@@ -151,6 +193,23 @@ if __name__=="__main__":
     img_path = r"D:\data\train\image\apt\[apt]attend_016C"
     img_path = img_path+"\[apt]attend_016C_0.jpg"
     img = mpimg.imread(img_path)
-    imgplot = plt.imshow(img)
+    # imgplot = plt.imshow(img)
 
-    draw_keypoints(crop_img, body_points, edges, ankles, keypoint_names, dpi=150)
+    label_path = img_path.replace("image", "label")
+    label_path = label_path.replace("jpg", "json")
+    with open(label_path, "r") as js:
+        datas = json.load(js)
+
+    # datas["annotations"][0].keys()
+    data = datas["annotations"][2] # random_person
+    crop_img = cut_image(data)
+    xs, ys, xs_mod, ys_mod = get_keypoint(data)
+
+    plt.imshow(crop_img)
+    plt.axis('off')
+    plt.savefig("./test.jpg", bbox_inches='tight', pad_inches=0, dpi=96*2.295)
+
+    body_points = get_mod_keypoint(xs_mod, ys_mod)
+
+    # draw_keypoints(crop_img, body_points, edges, ankles, keypoint_names, dpi=96*2.295)
+    draw_keypoints(crop_img, body_points, edges, ankles, dpi=96*2.295)
