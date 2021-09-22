@@ -8,9 +8,14 @@ class BusDataset():
     def __init__(self, csv_dir):
         self.csv_dir = csv_dir
         self.dataframe = self.get_dataframe()
+
         self.keypoints_series = self.dataframe["keypoints"]
+        self.angles_series = self.dataframe["angles"]
         self.framenums_series = self.dataframe["frame_num"]
+
         self.join_data = self.join_framenum_keypoint() #list
+        self.join_data_angle = self.join_framenum_angle() #list
+        
         self.getoff_series = self.dataframe["get_off"]
 
     def __len__(self):
@@ -29,6 +34,14 @@ class BusDataset():
             join_data.append((framenum, keypoint)) # tuple(# array, # array)
         return join_data
 
+    def join_framenum_angle(self):
+        join_data_angle=[]
+        for idx in self.dataframe.index:
+            angle = self.get_angle(self.angles_series[idx]) # array
+            framenum = self.get_framenum(self.framenums_series[idx]) # array
+            join_data_angle.append((framenum, angle)) # tuple(# array, # array)
+        return join_data_angle
+
     def get_framenum(self, row):
         framenum = [int(i) for i in row[1:-1].split(", ")] # string -> int
         return np.array(framenum)
@@ -44,6 +57,11 @@ class BusDataset():
                 pass
         return int_data
 
+    def normalize_angle(self, str_data):
+        int_data=[]
+        for i, dt in enumerate(str_data):
+            int_data.append(int(dt)/360)
+        return int_data
 
     def get_keypoint(self, row):
         # row: frames
@@ -56,6 +74,18 @@ class BusDataset():
             # int_data = [int(float(str_data[i])) for i in range(len(str_data)) if i%3 != 2]
             keypoint.append(np.array(int_data))
         return np.array(keypoint) # list /list element
+
+    def get_angle(self, row):
+        # row: frames
+        ag = [i for i in row[2:-2].split("], [")] # string
+        angle=[]
+        for j in range(len(ag)):
+            str_data = ag[j].split(", ")
+            # normalize
+            int_data = self.normalize_angle(str_data)
+            # int_data = [int(float(str_data[i])) for i in range(len(str_data)) if i%3 != 2]
+            angle.append(np.array(int_data))
+        return np.array(angle) # list /list element
 
     def get_y(self):
         # get_off
@@ -73,7 +103,7 @@ class BusDataset():
         for check, (framenum, keypoint) in enumerate(self.join_data):
             assert keypoint.shape[0] == framenum.shape[0]
             ky_series=[] # len MAX_LEN
-            for index in range(MAX_LEN): # index = 0, 1, 2, ..., 49
+            for index in range(MAX_LEN): # index = 0, 1, 2, ..., MAX_LEN-1
                 if index in framenum:
                     # print("framenum ", framenum.shape)
                     idx = np.where(framenum == index) # find idx
@@ -95,13 +125,41 @@ class BusDataset():
         assert len(X)==len(y)
         return X, y
 
+    def load_data_angle(self):
+        X = []
+        y = self.get_y()
+        for check, (framenum, angle) in enumerate(self.join_data):
+            assert angle.shape[0] == framenum.shape[0]
+            ag_series=[] # len MAX_LEN
+            for index in range(MAX_LEN): # index = 0, 1, 2, ..., MAX_LEN-1
+                if index in framenum:
+                    idx = np.where(framenum == index) # find idx
+                    # print(index)
+                    # print(framenum[idx])
+                    # print(check)
+                    if framenum[idx].shape!=(1,):
+                        ag_series.append(np.zeros(13)) # exception
+                    else:
+                        ag_series.append(np.squeeze(angle[idx])) # array
+                else:
+                    ag_series.append(np.zeros(13))
+            ag_series = np.array(ag_series)
+            assert ag_series.shape ==(MAX_LEN, 13)
+            X.append(np.array(ag_series))
+        # X = (len(df), MAX_LEN, 13)
+        # y = (len(df),)
+        X = np.array(X)
+        assert len(X)==len(y)
+        return X, y
+
 if __name__ == "__main__":
 
     train_dataset = BusDataset("D:\\data\\train\\train.csv")
     valid_dataset = BusDataset("D:\\data\\valid\\valid.csv")
 
-    (x_train, y_train) = train_dataset.load_data()
-    (x_test, y_test) = valid_dataset.load_data()
+    (x_train, y_train) = train_dataset.load_data_angle()
+    (x_test, y_test) = valid_dataset.load_data_angle()
+
     print(x_train.shape)
     print(y_train.shape)
     print(x_test.shape)

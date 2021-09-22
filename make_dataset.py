@@ -58,7 +58,14 @@ def check_people(label_folder, train=True):
     return people_in_one_scene
 
 def calculate_angle(keypoint):
-    angle = 0
+    xs = [d for i, d in enumerate(keypoint) if i%3==0]
+    ys = [d for i, d in enumerate(keypoint) if i%3==1]
+    angle=[]
+    for i, (l, c, r) in enumerate(ANKLES):
+        angle.append(getAngle3P([xs[l],ys[l]],
+                                [xs[c],ys[c]],
+                                [xs[r],ys[r]]))
+    assert len(angle) == 13
     return angle
 
 def write_csv(label_folder, people_in_one_scene_list, train=True):

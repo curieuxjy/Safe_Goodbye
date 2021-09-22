@@ -1,4 +1,4 @@
 MIN = 98
 MAX = 119
-MAX_LEN = 40
+MAX_LEN = 35
 BATCH = 8
