@@ -15,7 +15,7 @@ class BusDataset():
 
         self.join_data = self.join_framenum_keypoint() #list
         self.join_data_angle = self.join_framenum_angle() #list
-        
+
         self.getoff_series = self.dataframe["get_off"]
 
     def __len__(self):
@@ -58,10 +58,10 @@ class BusDataset():
         return int_data
 
     def normalize_angle(self, str_data):
-        int_data=[]
+        float_data=[]
         for i, dt in enumerate(str_data):
-            int_data.append(int(dt)/360)
-        return int_data
+            float_data.append(float(dt)/360.)
+        return float_data
 
     def get_keypoint(self, row):
         # row: frames
@@ -71,7 +71,6 @@ class BusDataset():
             str_data = ky[j].split(", ")
             # normalize
             int_data = self.normalize_keypoint(str_data)
-            # int_data = [int(float(str_data[i])) for i in range(len(str_data)) if i%3 != 2]
             keypoint.append(np.array(int_data))
         return np.array(keypoint) # list /list element
 
@@ -83,7 +82,6 @@ class BusDataset():
             str_data = ag[j].split(", ")
             # normalize
             int_data = self.normalize_angle(str_data)
-            # int_data = [int(float(str_data[i])) for i in range(len(str_data)) if i%3 != 2]
             angle.append(np.array(int_data))
         return np.array(angle) # list /list element
 
@@ -128,15 +126,12 @@ class BusDataset():
     def load_data_angle(self):
         X = []
         y = self.get_y()
-        for check, (framenum, angle) in enumerate(self.join_data):
+        for check, (framenum, angle) in enumerate(self.join_data_angle):
             assert angle.shape[0] == framenum.shape[0]
             ag_series=[] # len MAX_LEN
             for index in range(MAX_LEN): # index = 0, 1, 2, ..., MAX_LEN-1
                 if index in framenum:
                     idx = np.where(framenum == index) # find idx
-                    # print(index)
-                    # print(framenum[idx])
-                    # print(check)
                     if framenum[idx].shape!=(1,):
                         ag_series.append(np.zeros(13)) # exception
                     else:
@@ -144,6 +139,7 @@ class BusDataset():
                 else:
                     ag_series.append(np.zeros(13))
             ag_series = np.array(ag_series)
+            # print(ag_series.shape)
             assert ag_series.shape ==(MAX_LEN, 13)
             X.append(np.array(ag_series))
         # X = (len(df), MAX_LEN, 13)

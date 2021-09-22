@@ -1,10 +1,10 @@
+import numpy as np
+from dataset import *
+from config import *
 import tensorflow as tf
 from tensorflow.keras.utils import Sequence
 from tensorflow.keras.utils import to_categorical
-import numpy as np
-from dataset import *
 import warnings
-from config import *
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 class Bus_DataGenerator(Sequence):
@@ -60,15 +60,15 @@ if __name__=="__main__":
     train_dataset = BusDataset("D:\\data\\train\\train.csv")
     valid_dataset = BusDataset("D:\\data\\valid\\valid.csv")
 
-    (x_train, y_train) = train_dataset.load_data()
-    (x_valid, y_valid) = valid_dataset.load_data()
+    (x_train, y_train) = train_dataset.load_data_angle()
+    (x_valid, y_valid) = valid_dataset.load_data_angle()
 
     print(x_train.shape)
     print(y_train.shape)
     print(x_valid.shape)
     print(y_valid.shape)
 
-    dg = Bus_DataGenerator(x_train, y_train, BATCH, (MAX_LEN, 32), 2)
+    dg = Bus_DataGenerator(x_train, y_train, BATCH, (MAX_LEN, 13), 2)
     print(dg.__len__)
     X_instance, y_instance = dg.__getitem__(0)
     # print(type(X_instance))

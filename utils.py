@@ -1,12 +1,14 @@
 import json
-from os import walk
 import os
-from tqdm import tqdm
-from operator import itemgetter
 import cv2
 import numpy as np
+from os import walk
+from tqdm import tqdm
+from operator import itemgetter
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+from matplotlib.patches import Arc
+from matplotlib.transforms import IdentityTransform, TransformedBbox, Bbox
 
 KEYPOINTS_TAG = ["r_ankle", "r_knee", "r_hip", "l_hip", "l_knee", "l_ankle", "hip", "chest", "neck",
                     "head", "r_wrist", "r_elbow", "r_shoulder", "l_shoulder", "l_elbow", "l_wrist"]
@@ -193,14 +195,11 @@ def draw_keypoints(image,
     """
     np.random.seed(42)
     colors = {k: tuple(map(int, np.random.randint(0, 255, 3))) for k in range(24)}
-
-#     if boxes:
-#         x1, y1 = min(keypoints[:, 0]), min(keypoints[:, 1])
-#         x2, y2 = max(keypoints[:, 0]), max(keypoints[:, 1])
-#         cv2.rectangle(image, (x1, y1), (x2, y2), (255, 100, 91), thickness=3)
-
+    # if boxes:
+    #     x1, y1 = min(keypoints[:, 0]), min(keypoints[:, 1])
+    #     x2, y2 = max(keypoints[:, 0]), max(keypoints[:, 1])
+    #     cv2.rectangle(image, (x1, y1), (x2, y2), (255, 100, 91), thickness=3)
     for k, v in keypoints.items():
-#         print(k, v)
         cv2.circle(
             image, 
             v, 

@@ -1,8 +1,8 @@
 import re
 import os
-from operator import itemgetter
 import cv2
 from tqdm import tqdm 
+from operator import itemgetter
 
 def generate_video(txt_path:str, tag="train"):
     f = open(txt_path, 'r')
@@ -45,10 +45,10 @@ def generate_video(txt_path:str, tag="train"):
         out.release()
 
 if __name__ =="__main__":
-    # valid_path = "D:\\data\\valid\\valid_total.txt"
+    valid_path = "D:\\data\\valid\\valid_total.txt"
     train_path = "D:\\data\\train\\train_total.txt"
-    # print(">> Generating Valid videos")
-    # generate_video(valid_path, tag="valid")
+    print(">> Generating Valid videos")
+    generate_video(valid_path, tag="valid")
     print(">> Generating Train videos")
     generate_video(train_path, tag="train")
     
