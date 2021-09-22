@@ -1,99 +1,93 @@
 import os
 from os import walk
 import pandas as pd
-from torch.utils.data import Dataset
-from torchvision.io import read_image
+import numpy as np
 
-class BusDataset(Dataset):
-    def __init__(self, label_dir, img_dir, transform=None, target_transform=None):
-#         self.img_labels = pd.read_csv(annotations_file)
-        self.label_dir = label_dir
-        self.img_dir = img_dir
-        self.transform = transform
-        self.target_transform = target_transform
-        self.label_list = self.get_label_list()
-        self.image_list = self.get_image_list()
+class BusDataset():
+    def __init__(self, csv_dir):
+        self.csv_dir = csv_dir
+        self.dataframe = self.get_dataframe()
+        self.keypoints_series = self.dataframe["keypoints"]
+        self.framenums_series = self.dataframe["frame_num"]
+        self.join_data = self.join_framenum_keypoint() #list
+        self.getoff_series = self.dataframe["get_off"]
 
     def __len__(self):
-        assert len(self.label_list) == len(self.image_list)
-        return len(self.label_list)
-
-    def __getitem__(self, idx):
-        img_path = os.path.join(self.image_list[idx])
-        image = read_image(img_path)
-        label = self.label_list[idx]
-        label = self.get_json(label)
-        if self.transform:
-            image = self.transform(image)
-        if self.target_transform:
-            label = self.target_transform(label)
-        return image, label
+        print(len(self.dataframe))
     
-    def get_image_list(self):
-        image_folder=[]
-        for (dirpath, dirnames, filenames) in walk(self.img_dir):
-            image_folder.append((dirpath, dirnames, filenames)) # directory
+    def get_dataframe(self):
+        df = pd.read_csv(self.csv_dir)
+        drop_index = df[df["frame_num"]=="[]"].index
+        return df.drop(drop_index)
 
-        # print(image_folder)
+    def join_framenum_keypoint(self):
+        join_data=[]
+        for idx in self.dataframe.index:
+            keypoint = self.get_keypoint(self.keypoints_series[idx]) # array
+            framenum = self.get_framenum(self.framenums_series[idx]) # array
+            join_data.append((framenum, keypoint)) # tuple(# array, # array)
+        return join_data
 
-        clean=[]
-        for i in range(len(image_folder)):
-            if len(image_folder[i][0].split("\\"))<6:
-                pass
+    def get_framenum(self, row):
+        framenum = [int(i) for i in row[1:-1].split(", ")] # string -> int
+        return np.array(framenum)
+
+    def get_keypoint(self, row):
+        # row: frames
+        ky = [i for i in row[2:-2].split("], [")] # string
+        keypoint=[]
+        for j in range(len(ky)):
+            str_data = ky[j].split(", ")
+            int_data = [int(float(str_data[i])) for i in range(len(str_data)) if i%3 != 2]
+            keypoint.append(np.array(int_data))
+        return np.array(keypoint) # list /list element
+
+    def get_y(self):
+        # get_off
+        y = []
+        for index in self.dataframe.index:
+            if self.getoff_series[index][1]=="F":
+                y.append(0)
             else:
-                clean.append(image_folder[i])
-        for i in range(len(clean)):
-            if clean[i][1]!=[]:
-                print("nope")
-            else:
-                clean[i] = (clean[i][0], clean[i][2])        
-        image_list=[]
-        for root, files in clean:
-            for file in files:
-                image_path = root+"\\"+file
-                image_list.append(image_path)
-                
-        return image_list
-            
-    def get_label_list(self):
-        label_folder=[]
-        for (dirpath, dirnames, filenames) in walk(self.label_dir):
-            label_folder.append((dirpath, dirnames, filenames)) # directory
-            
-        clean=[]
-        for i in range(len(label_folder)):
-            if len(label_folder[i][0].split("\\"))<6:
-                pass
-            else:
-                clean.append(label_folder[i])
+                y.append(1) # T
+        return np.array(y)
 
-        for i in range(len(clean)):
-            if clean[i][1]!=[]:
-                print("nope")
-            else:
-                clean[i] = (clean[i][0], clean[i][2])
-
-        # print(clean[0])        
-        label_list=[]
-        for root, files in clean:
-            for file in files:
-                label_path = root+"\\"+file
-                label_list.append(label_path)
-                
-        return label_list
-
-    def get_json(self, label):
-        with open(label, "r") as st_json:
-            data = json.load(st_json)
-        anno = data["annotation"]
-        info = data["info"]
-        w, h = info['width'], info["height"]
-        anno_num = len(anno)
-        for in range()
-
+    def load_data(self):
+        X = []
+        y = self.get_y()
+        for check, (framenum, keypoint) in enumerate(self.join_data):
+            assert keypoint.shape[0] == framenum.shape[0]
+            ky_series=[] # len 50
+            for index in range(50): # index = 0, 1, 2, ..., 49
+                if index in framenum:
+                    # print("framenum ", framenum.shape)
+                    idx = np.where(framenum == index) # find idx
+                    # print(index)
+                    # print(framenum[idx])
+                    # print(check)
+                    if framenum[idx].shape!=(1,):
+                        ky_series.append(np.zeros(32)) # exception
+                    else:
+                        ky_series.append(np.squeeze(keypoint[idx])) # array
+                else:
+                    ky_series.append(np.zeros(32))
+            ky_series = np.array(ky_series)
+            assert ky_series.shape ==(50, 32)
+            X.append(np.array(ky_series))
+        # X = (len(df), 50, 16x2)
+        # y = (len(df),)
+        X = np.array(X)
+        assert len(X)==len(y)
+        return X, y
 
 if __name__ == "__main__":
 
-    a = BusDataset("D:\\data\\train\\label", "D:\\data\\train\\image")
-    print(a.__len__())
-    print(a.__getitem__(0))
+    train_dataset = BusDataset("D:\\data\\train\\train.csv")
+    valid_dataset = BusDataset("D:\\data\\valid\\valid.csv")
+
+    (x_train, y_train) = train_dataset.load_data()
+    (x_test, y_test) = valid_dataset.load_data()
+    print(x_train.shape)
+    print(y_train.shape)
+    print(x_test.shape)
+    print(y_test.shape)

@@ -39,18 +39,17 @@ type 2
     - [x] 결점 데이터 제거
     - [x] get off가 True vs. False인 사람 비율
     - [x] 한 frame 당/ scene 당 나타나는 사람 수 비율
-- [ ] 모델에 맞는 csv 데이터 셋 만들기
+- [x] 모델에 맞는 csv 데이터 셋 만들기
 - [ ] 데이터셋 클래스
 - [ ] 간단한 lstm 모델
 - [ ] 시각화
 - [ ] TF multi pose 모델이랑 연결
 
 ## Repo에 있는 코드 설명
-- `check_people.py`:
-- `find_getoff.py`:
-- `cutoff_box.py`:
-- `simple_dataset.py`: 각 사람(id)별 키포인트 시계열 데이터로 가져오기
-- `train.py`: simple lstm model로 training
+- `data_analysis.py`: 1
+- `make_dataset.py`: 2
+- `dataset.py`: 3
+- `simple_dataset_keras.py`: 4 simple lstm model로 training
 - `inference.py`: 
 - `generate_video.py`:
 - `tf2_multipose.py`:
@@ -58,6 +57,9 @@ type 2
 ## Reference
 - [Scale invariant angle label](https://matplotlib.org/stable/gallery/text_labels_and_annotations/angle_annotation.html#sphx-glr-gallery-text-labels-and-annotations-angle-annotation-py)
 - [seaborn.histplot](https://seaborn.pydata.org/generated/seaborn.histplot.html)
+- [matplotlib barplot](https://rfriend.tistory.com/411)
+- [dealing with csv file](https://timetobye.github.io/csv_file_handler/)
+- [Keras data generator](https://stanford.edu/~shervine/blog/keras-how-to-generate-data-on-the-fly)
 
 ### Baseline
 - [Unified Framework for Pedestrian Detection & Intention Classification](https://github.com/mjpramirez/Volvo-DataX)

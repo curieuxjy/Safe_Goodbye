@@ -48,7 +48,7 @@ def check_people(label_folder, train=True):
 
     if train:
         tag = "train"
-        assert len(people_in_one_scene) == 1200
+        assert len(people_in_one_scene) == 1198
     else:
         tag = "valid"
         assert len(people_in_one_scene) == 222
