@@ -50,7 +50,7 @@ type 2
 - `make_dataset.py`: 2
 - `dataset.py`: 3
 - `simple_dataset_keras.py`: 4 simple lstm model로 training
-- `inference.py`: 
+- `train.py`: 
 - `generate_video.py`:
 - `tf2_multipose.py`:
 
