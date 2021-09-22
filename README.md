@@ -5,12 +5,16 @@
 ### [자율주행 - 버스 승객 승하차 영상](https://aihub.or.kr/aidata/34166) : Camera C (General C)
 - Removed List
 ```
+>>> image problem
 ...\ele\[ele]attend_270C
 ...\etc\[etc]attend_154C
 ...\hospital\[hospital]attend_392C
 ...\hospital\[hospital]leave_251C
+>>> label problem
+...\apt\[apt]attend_1275C
+...\apt\[apt]attend_941C
 ```
-- Target(demonstration result)
+- Target(demonstration result) from Validation set
 
 ```
 reselecting
@@ -60,6 +64,7 @@ type 2
 - [matplotlib barplot](https://rfriend.tistory.com/411)
 - [dealing with csv file](https://timetobye.github.io/csv_file_handler/)
 - [Keras data generator](https://stanford.edu/~shervine/blog/keras-how-to-generate-data-on-the-fly)
+- [https://chancoding.tistory.com/93](https://chancoding.tistory.com/93)
 
 ### Baseline
 - [Unified Framework for Pedestrian Detection & Intention Classification](https://github.com/mjpramirez/Volvo-DataX)

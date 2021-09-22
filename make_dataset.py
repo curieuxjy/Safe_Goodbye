@@ -6,6 +6,7 @@ from tqdm import tqdm
 from operator import itemgetter
 import pandas as pd
 import warnings
+from config import *
 warnings.filterwarnings("ignore")
 
 def read_txt(txt_path, train=True):
@@ -28,8 +29,8 @@ def check_people(label_folder, train=True):
     people_in_one_scene = []
 
     for scene, frames in tqdm(label_folder):
-        frames_50 = frames[:50] # cut in 50 frames
-        frame_label = [scene+"\\"+frame for frame in frames_50]
+        frames_CUT = frames[:MAX_LEN] # cut in MAX_LEN frames
+        frame_label = [scene+"\\"+frame for frame in frames_CUT]
         max_person=-1
 
         for path in frame_label:
@@ -73,8 +74,8 @@ def write_csv(label_folder, people_in_one_scene_list, train=True):
         for i, (scene, frames) in tqdm(enumerate(label_folder)):
             one_dict = empty_dict.copy()
             one_dict["scene"] = scene.split("\\")[-1]
-            frames_50 = frames[:50] # cut in 50 frames
-            frame_label = [scene+"\\"+frame for frame in frames_50]
+            frames_CUT = frames[:MAX_LEN] # cut in MAX_LEN frames
+            frame_label = [scene+"\\"+frame for frame in frames_CUT]
             
             dict_list=[]
             if people_in_one_scene_list[i] == -1:
@@ -127,7 +128,7 @@ def sort_numbering(file_list):
     after = [i[0] for i in after]
     return after
 
-def find_filelist_50(txt_path, train=True):
+def find_filelist_CUT(txt_path, train=True):
     f = open(txt_path, 'r')
     label_folder = []
     frames = []
@@ -156,16 +157,16 @@ def find_filelist_50(txt_path, train=True):
 
     print("{} scenes {} frames in {} dataset".format(len(label_folder), sum(frames), tag))
 
-    label_list_50 = []
+    label_list_CUT = []
     for scene, frames in label_folder:
-        frames_50 = frames[:50] # cut in 50 frames
-        frame_label = [scene+"\\"+frame for frame in frames_50]
-        label_list_50.extend(frame_label)
+        frames_CUT = frames[:MAX_LEN] # cut in MAX_LEN frames
+        frame_label = [scene+"\\"+frame for frame in frames_CUT]
+        label_list_CUT.extend(frame_label)
 
     print("You have {} scenes in {}".format(len(label_folder), txt_path))
-    print("You have {} frames in {} (cut in 50 frames)".format(len(label_list_50), txt_path))
+    print("You have {} frames in {} (CUT)".format(len(label_list_CUT), txt_path))
 
-    return label_folder, label_list_50
+    return label_folder, label_list_CUT
 
 def check_dataset(csv_path, num:int):
     with open(csv_path, newline='') as file:
@@ -177,8 +178,8 @@ def check_dataset(csv_path, num:int):
 
 if __name__=="__main__":
 
-    train_label_folder, train_label_list_50 = find_filelist_50("D:\\data\\train\\train_total.txt", train=True)
-    valid_label_folder, valid_label_list_50 = find_filelist_50("D:\\data\\valid\\valid_total.txt", train=False)
+    train_label_folder, train_label_list_CUT = find_filelist_CUT("D:\\data\\train\\train_total.txt", train=True)
+    valid_label_folder, valid_label_list_CUT = find_filelist_CUT("D:\\data\\valid\\valid_total.txt", train=False)
 
     print(">> Checking people")
     people_in_one_scene_train = check_people(train_label_folder, train=True)

@@ -4,7 +4,7 @@ from operator import itemgetter
 import cv2
 from tqdm import tqdm 
 
-def generate_video(txt_path:str):
+def generate_video(txt_path:str, tag="train"):
     f = open(txt_path, 'r')
     a_list = []
     while True:
@@ -18,10 +18,10 @@ def generate_video(txt_path:str):
         path = i.replace("label", "image") #"D:\\data\\valid\\image\\apt\\[apt]attend_016C\\"
         paths = [os.path.join(path , i ) for i in os.listdir(path) if re.search(".jpg$", i )]
         num_list = [i[:-4].split("_")[-1] for i in paths]
-        # pathIn= "D:\\work\\trainb\\label\\district\\[district]day_440B\\"
+        # pathIn= "D:\\data\\train\\label\\district\\[district]day_440B\\"
         name = i.split("\\")[-1]
-        pathOut = 'D:\\data\\valid\\video\\'+name+".mp4"
-        fps = 15
+        pathOut = 'D:\\data\\{}\\video\\'.format(tag)+name+".mp4"
+        fps = 10
 
         before=[]
         for num, path in zip(num_list, paths):
@@ -47,3 +47,8 @@ def generate_video(txt_path:str):
 if __name__ =="__main__":
     valid_path = "D:\\data\\valid\\valid_total.txt"
     train_path = "D:\\data\\train\\train_total.txt"
+    print(">> Generating Valid videos")
+    generate_video(valid_path, tag="valid")
+    print(">> Generating Train videos")
+    generate_video(train_path, tag="train")
+    

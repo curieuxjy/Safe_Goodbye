@@ -1,7 +1,5 @@
 """
 DATA ANALYSIS
-- 각 Scene당 frame 수
-- 한 프레임에서 보이는 사람의 수 max, min
 """
 import json
 from os import walk
@@ -11,6 +9,7 @@ from tqdm import tqdm
 from operator import itemgetter
 import matplotlib.pyplot as plt
 from utils import *
+from config import *
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -167,8 +166,6 @@ if __name__=="__main__":
     train_label_path= "D:\\data\\train\\label"
     valid_label_path= "D:\\data\\valid\\label"
 
-    MIN = 98
-    MAX = 119
     train_label_folder, train_label_list = find_filelist(train_label_path)
     valid_label_folder, valid_label_list = find_filelist(valid_label_path)
 

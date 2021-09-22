@@ -2,6 +2,7 @@ import os
 from os import walk
 import pandas as pd
 import numpy as np
+from config import *
 
 class BusDataset():
     def __init__(self, csv_dir):
@@ -71,8 +72,8 @@ class BusDataset():
         y = self.get_y()
         for check, (framenum, keypoint) in enumerate(self.join_data):
             assert keypoint.shape[0] == framenum.shape[0]
-            ky_series=[] # len 50
-            for index in range(50): # index = 0, 1, 2, ..., 49
+            ky_series=[] # len MAX_LEN
+            for index in range(MAX_LEN): # index = 0, 1, 2, ..., 49
                 if index in framenum:
                     # print("framenum ", framenum.shape)
                     idx = np.where(framenum == index) # find idx
@@ -86,9 +87,9 @@ class BusDataset():
                 else:
                     ky_series.append(np.zeros(32))
             ky_series = np.array(ky_series)
-            assert ky_series.shape ==(50, 32)
+            assert ky_series.shape ==(MAX_LEN, 32)
             X.append(np.array(ky_series))
-        # X = (len(df), 50, 16x2)
+        # X = (len(df), MAX_LEN, 16x2)
         # y = (len(df),)
         X = np.array(X)
         assert len(X)==len(y)

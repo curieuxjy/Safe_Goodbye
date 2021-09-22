@@ -5,6 +5,7 @@ import numpy as np
 from dataset import *
 from simple_dataset_keras import *
 import warnings
+from config import *
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 if __name__=="__main__":
@@ -19,24 +20,24 @@ if __name__=="__main__":
     # print(x_valid.shape)
     # print(y_valid.shape)
 
-    trainGenSet = Bus_DataGenerator(x_train, y_train, 8, (50, 32), 2)
+    trainGenSet = Bus_DataGenerator(x_train, y_train, BATCH, (MAX_LEN, 32), 2)
     print(trainGenSet.__getitem__(0)[0][0])
-    # validGenSet = Bus_DataGenerator(x_valid, y_valid, 8, (50, 32), 2)
+    validGenSet = Bus_DataGenerator(x_valid, y_valid, BATCH, (MAX_LEN, 32), 2)
 
-    # model = Sequential()
-    # # model.add(Embedding(input_dim=own_embedding_vocab_size, output_dim=32, input_length=maxlen))
-    # model.add(Input(shape=(50, 32), batch_size=8))
-    # model.add(Bidirectional(LSTM(32,activation='relu',recurrent_dropout=0.1)))
-    # model.add(Flatten())
-    # model.add(Dense(1, activation='sigmoid'))
+    model = Sequential()
+    # model.add(Embedding(input_dim=own_embedding_vocab_size, output_dim=32, input_length=maxlen))
+    model.add(Input(shape=(MAX_LEN, 32), batch_size=BATCH))
+    model.add(Bidirectional(LSTM(32,activation='relu',recurrent_dropout=0.1)))
+    model.add(Flatten())
+    model.add(Dense(1, activation='sigmoid'))
 
-    # print(model.summary())
+    print(model.summary())
 
-    # model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
-    # model.fit_generator(trainGenSet,
-    #                     steps_per_epoch=20,
-    #                     epochs=300,
-    #                     validation_data=validGenSet,
-    #                     validation_steps=10)
-    # scores = model.evaluate_generator(validGenSet)
-    # print(scores)
+    model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
+    model.fit_generator(trainGenSet,
+                        steps_per_epoch=20,
+                        epochs=300,
+                        validation_data=validGenSet,
+                        validation_steps=10)
+    scores = model.evaluate_generator(validGenSet)
+    print(scores)

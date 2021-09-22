@@ -4,6 +4,7 @@ from tensorflow.keras.utils import to_categorical
 import numpy as np
 from dataset import *
 import warnings
+from config import *
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 class Bus_DataGenerator(Sequence):
@@ -67,7 +68,7 @@ if __name__=="__main__":
     print(x_valid.shape)
     print(y_valid.shape)
 
-    dg = Bus_DataGenerator(x_train, y_train, 8, (50, 32), 2)
+    dg = Bus_DataGenerator(x_train, y_train, BATCH, (MAX_LEN, 32), 2)
     print(dg.__len__)
     X_instance, y_instance = dg.__getitem__(0)
     # print(type(X_instance))
