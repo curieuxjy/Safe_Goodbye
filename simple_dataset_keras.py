@@ -6,7 +6,7 @@ from dataset import *
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
-class DataGenerator(Sequence):
+class Bus_DataGenerator(Sequence):
     def __init__(self, X, y, batch_size, dim, n_classes, shuffle = True):
         self.X = X
         self.y = y if y is not None else y
@@ -62,25 +62,23 @@ if __name__=="__main__":
     (x_train, y_train) = train_dataset.load_data()
     (x_valid, y_valid) = valid_dataset.load_data()
 
-    x_train, x_valid = x_train / 255.0, x_valid / 255.0
-
     print(x_train.shape)
     print(y_train.shape)
     print(x_valid.shape)
     print(y_valid.shape)
 
-    dg = DataGenerator(x_train, y_train, 8, (50, 32), 2)
+    dg = Bus_DataGenerator(x_train, y_train, 8, (50, 32), 2)
     print(dg.__len__)
     X_instance, y_instance = dg.__getitem__(0)
     # print(type(X_instance))
     print(X_instance.shape)
     print(y_instance.shape)
 
-    # import matplotlib.pyplot as plt
+    import matplotlib.pyplot as plt
 
-    # for i, (x, y) in enumerate(dg):
-    #     if(i <= 1):
-    #         x_first = x[0]
-    #         plt.title(y[0])
-    #         plt.imshow(x_first)
-    #         plt.show()
+    for i, (x, y) in enumerate(dg):
+        if(i <= 1):
+            x_first = x[0]
+            plt.title(y[0])
+            plt.imshow(x_first)
+            plt.show()

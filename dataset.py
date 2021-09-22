@@ -32,13 +32,27 @@ class BusDataset():
         framenum = [int(i) for i in row[1:-1].split(", ")] # string -> int
         return np.array(framenum)
 
+    def normalize_keypoint(self, str_data):
+        int_data=[]
+        for i, dt in enumerate(str_data):
+            if i%3==0:
+                int_data.append(int(dt)/1920)
+            elif i%3==1:
+                int_data.append(int(dt)/1080)
+            else:
+                pass
+        return int_data
+
+
     def get_keypoint(self, row):
         # row: frames
         ky = [i for i in row[2:-2].split("], [")] # string
         keypoint=[]
         for j in range(len(ky)):
             str_data = ky[j].split(", ")
-            int_data = [int(float(str_data[i])) for i in range(len(str_data)) if i%3 != 2]
+            # normalize
+            int_data = self.normalize_keypoint(str_data)
+            # int_data = [int(float(str_data[i])) for i in range(len(str_data)) if i%3 != 2]
             keypoint.append(np.array(int_data))
         return np.array(keypoint) # list /list element
 
