@@ -27,7 +27,7 @@ type 2
 
 ```
 <p align= "center">
-  <img src="./assets/check_frame.png" width="700"/>
+  <img src="./assets/check_frame.png" width="500"/>
 </p>
 
 ||Train|Valid|
@@ -35,13 +35,16 @@ type 2
 |per Scene|![](./assets/people_in_one_scene_train.png)|![](./assets/people_in_one_scene_valid.png)|
 |per Frame|![](./assets/people_in_one_frame_train.png)|![](./assets/people_in_one_frame_valid.png)|
 
-![](./assets/get_off_ratio.png)
+
+<p align= "center">
+  <img src="./assets/get_off_ratio.png" width="500"/>
+</p>
 
 ## Modeling
 - 하차 전 약 35프레임에서의 각 사람의 skeleton data를 time series data로 만들어서 하차할 것인지 하차하지 않을 것인지 Intention Prediction
 
 <p align= "center">
-  <img src="./assets/skeleton.png" width="700"/>
+  <img src="./assets/skeleton.png" width="400"/>
 </p>
 
 ## TODO
