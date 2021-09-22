@@ -7,12 +7,11 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 class DataGenerator(Sequence):
-    def __init__(self, X, y, batch_size, dim, n_channels, n_classes, shuffle = True):
+    def __init__(self, X, y, batch_size, dim, n_classes, shuffle = True):
         self.X = X
         self.y = y if y is not None else y
         self.batch_size = batch_size
         self.dim = dim
-        self.n_channels = n_channels
         self.n_classes = n_classes
         self.shuffle = shuffle
         self.on_epoch_end()
@@ -30,10 +29,6 @@ class DataGenerator(Sequence):
         y = np.empty((self.batch_size), dtype = int)
         
         if y is not None:
-            # 지금 같은 경우는 MNIST를 로드해서 사용하기 때문에
-            # 배열에 그냥 넣어주면 되는 식이지만,
-            # custom image data를 사용하는 경우 
-            # 이 부분에서 이미지를 batch_size만큼 불러오게 하면 됩니다. 
             for i, (img, label) in enumerate(zip(X_list, y_list)):
                 X[i] = img
                 y[i] = label
@@ -60,19 +55,32 @@ class DataGenerator(Sequence):
             return X
 
 if __name__=="__main__":
-    mnist = tf.keras.datasets.mnist
+    # from dataset.py
+    train_dataset = BusDataset("D:\\data\\train\\train.csv")
+    valid_dataset = BusDataset("D:\\data\\valid\\valid.csv")
 
-    (x_train, y_train), (x_test, y_test) = mnist.load_data()
-    x_train, x_test = x_train / 255.0, x_test / 255.0
-    #----------여기까지는 내가 만들어야
+    (x_train, y_train) = train_dataset.load_data()
+    (x_valid, y_valid) = valid_dataset.load_data()
 
-    dg = DataGenerator(x_train, y_train, 4, (28, 28), 1, 10)
+    x_train, x_valid = x_train / 255.0, x_valid / 255.0
 
-    import matplotlib.pyplot as plt
+    print(x_train.shape)
+    print(y_train.shape)
+    print(x_valid.shape)
+    print(y_valid.shape)
 
-    for i, (x, y) in enumerate(dg):
-        if(i <= 1):
-            x_first = x[0]
-            plt.title(y[0])
-            plt.imshow(x_first)
-            plt.show()
+    dg = DataGenerator(x_train, y_train, 8, (50, 32), 2)
+    print(dg.__len__)
+    X_instance, y_instance = dg.__getitem__(0)
+    # print(type(X_instance))
+    print(X_instance.shape)
+    print(y_instance.shape)
+
+    # import matplotlib.pyplot as plt
+
+    # for i, (x, y) in enumerate(dg):
+    #     if(i <= 1):
+    #         x_first = x[0]
+    #         plt.title(y[0])
+    #         plt.imshow(x_first)
+    #         plt.show()
