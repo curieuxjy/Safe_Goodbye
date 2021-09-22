@@ -26,7 +26,9 @@ type 2
 [mid_high]leave_354C
 
 ```
-![](./assets/check_frame.png)
+<p align= "center">
+  <img src="./assets/check_frame.png" width="700"/>
+</p>
 
 ||Train|Valid|
 |-|-|-|
@@ -38,7 +40,9 @@ type 2
 ## Modeling
 - 하차 전 약 35프레임에서의 각 사람의 skeleton data를 time series data로 만들어서 하차할 것인지 하차하지 않을 것인지 Intention Prediction
 
-![](./assets/skeleton.png)
+<p align= "center">
+  <img src="./assets/skeleton.png" width="700"/>
+</p>
 
 ## TODO
 - [x] 데이터 분석
