@@ -49,8 +49,8 @@ type 2
 
 ||Train|Valid|
 |-|-|-|
-|Loss|![](./assets/loss_train.png)|![](./assets/loss_valid.png)|
-|Accuracy|![](./assets/acc_train.png)|![](./assets/acc_valid.png)|
+|Loss|![](./assets/loss_train.PNG)|![](./assets/loss_valid.PNG)|
+|Accuracy|![](./assets/acc_train.PNG)|![](./assets/acc_valid.PNG)|
 
 
 ## Codes
