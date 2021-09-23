@@ -7,7 +7,7 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Embedding, Flatten, Dense, Bidirectional, LSTM, Input
-
+from tensorflow.python.keras.models import load_model
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
@@ -72,13 +72,24 @@ if __name__=="__main__":
 
     model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
 
+    checkpoint_filepath = 'checkpoint/{epoch:02d}-{val_loss:.5f}.h5'
+    model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
+        filepath=checkpoint_filepath,
+        monitor='val_accuracy',
+        mode='max',
+        save_best_only=True)
+
     hist = model.fit_generator(trainGenSet,epochs=90,
                                 validation_data=validGenSet,
-                                callbacks=[tensorboard])
+                                callbacks=[tensorboard, model_checkpoint_callback])
 
     scores = model.evaluate_generator(validGenSet)
 
     print(scores)
+
+    # model.save('bus_intention_model.h5')
+
+    
 
     # fig, loss_ax = plt.subplots()
 

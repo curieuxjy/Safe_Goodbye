@@ -1,5 +1,5 @@
 import re
-import os
+from os import walk
 import cv2
 from tqdm import tqdm 
 from operator import itemgetter
@@ -44,11 +44,37 @@ def generate_video(txt_path:str, tag="train"):
             out.write(frame_array[i])
         out.release()
 
+def generate_video_inference(path):
+    for (dirpath, dirnames, filenames) in walk(path):
+        files = filenames
+    # print(files)
+    files = [path+i for i in files]
+    pathOut = path+"target.mp4"
+    fps = 5
+
+    size=0
+    frame_array = []
+    for idx , path in enumerate(files) : 
+        img = cv2.imread(path)
+        height, width, layers = img.shape
+        size = (width,height)
+        frame_array.append(img)
+    out = cv2.VideoWriter(pathOut,cv2.VideoWriter_fourcc(*'DIVX'), fps, size)
+
+    for i in range(len(frame_array)):
+        # writing to a image array
+        out.write(frame_array[i])
+    out.release()
+
 if __name__ =="__main__":
-    valid_path = "D:\\data\\valid\\valid_total.txt"
-    train_path = "D:\\data\\train\\train_total.txt"
-    print(">> Generating Valid videos")
-    generate_video(valid_path, tag="valid")
-    print(">> Generating Train videos")
-    generate_video(train_path, tag="train")
+    # valid_path = "D:\\data\\valid\\valid_total.txt"
+    # train_path = "D:\\data\\train\\train_total.txt"
+    # print(">> Generating Valid videos")
+    # generate_video(valid_path, tag="valid")
+    # print(">> Generating Train videos")
+    # generate_video(train_path, tag="train")
+    path = "C:\\Users\\Jungyeon\\Desktop\\Arrival_project\\target1\\"
+    generate_video_inference(path)
+    path = "C:\\Users\\Jungyeon\\Desktop\\Arrival_project\\target2\\"
+    generate_video_inference(path)
     

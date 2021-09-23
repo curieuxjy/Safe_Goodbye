@@ -74,6 +74,7 @@ type 2
 - [Tensorflow Keras - 4 (자연어처리,감정분석)](https://datacook.tistory.com/53)
 - [Tensorborad](https://www.tensorflow.org/tensorboard/get_started)
 - [Checkpoint](https://keras.io/api/callbacks/model_checkpoint/)
+- [ModelCheckpoint](https://deep-deep-deep.tistory.com/53)
 
 ### Baseline
 - [Unified Framework for Pedestrian Detection & Intention Classification](https://github.com/mjpramirez/Volvo-DataX)
