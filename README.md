@@ -47,7 +47,13 @@ type 2
   <img src="./assets/skeleton.png" width="400"/>
 </p>
 
-## Repo에 있는 코드 설명
+||Train|Valid|
+|-|-|-|
+|Loss|![](./assets/loss_train.png)|![](./assets/loss_valid.png)|
+|Accuracy|![](./assets/acc_train.png)|![](./assets/acc_valid.png)|
+
+
+## Codes
 - `data_analysis.py`: 1
 - `make_dataset.py`: 2
 - `dataset.py`: 3
@@ -66,7 +72,8 @@ type 2
 - [Guide to the Functional API](https://keras.io/ko/getting-started/functional-api-guide/)
 - [DataGenerator](https://chancoding.tistory.com/93)
 - [Tensorflow Keras - 4 (자연어처리,감정분석)](https://datacook.tistory.com/53)
-- [Tensorborad]()
+- [Tensorborad](https://www.tensorflow.org/tensorboard/get_started)
+- [Checkpoint](https://keras.io/api/callbacks/model_checkpoint/)
 
 ### Baseline
 - [Unified Framework for Pedestrian Detection & Intention Classification](https://github.com/mjpramirez/Volvo-DataX)

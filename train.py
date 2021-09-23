@@ -4,8 +4,7 @@ from dataset import *
 from simple_dataset_keras import *
 from datetime import datetime
 import tensorflow as tf
-# from tf.keras.callbacks.TensorBoard
-# from tensorflow.keras.callbacks import Tensorboard
+import matplotlib.pyplot as plt
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Embedding, Flatten, Dense, Bidirectional, LSTM, Input
 
@@ -16,7 +15,7 @@ def simple_bilstm():
     model = Sequential()
     # model.add(Embedding(input_dim=(MAX_LEN, 13), output_dim=13, input_length=MAX_LEN))
     model.add(Input(shape=(MAX_LEN, 13), batch_size=BATCH))
-    model.add(Bidirectional(LSTM(128,activation='relu',recurrent_dropout=0.1)))
+    model.add(Bidirectional(LSTM(64,activation='relu',recurrent_dropout=0.1)))
     model.add(Flatten())
     model.add(Dense(1, activation='sigmoid'))
     print(model.summary())
@@ -73,10 +72,30 @@ if __name__=="__main__":
 
     model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
 
-    history = model.fit_generator(trainGenSet,epochs=300,
+    hist = model.fit_generator(trainGenSet,epochs=90,
                                 validation_data=validGenSet,
-                                 callbacks=[tensorboard])
+                                callbacks=[tensorboard])
 
     scores = model.evaluate_generator(validGenSet)
 
     print(scores)
+
+    # fig, loss_ax = plt.subplots()
+
+    # acc_ax = loss_ax.twinx()
+
+    # loss_ax.plot(hist.history['loss'], 'y', label='train loss')
+    # loss_ax.plot(hist.history['val_loss'], 'r', label='val loss')
+
+    # acc_ax.plot(hist.history['acc'], 'b', label='train acc')
+    # acc_ax.plot(hist.history['val_acc'], 'g', label='val acc')
+
+    # loss_ax.set_xlabel('epoch')
+    # loss_ax.set_ylabel('loss')
+    # acc_ax.set_ylabel('accuray')
+
+    # loss_ax.legend(loc='upper left')
+    # acc_ax.legend(loc='lower left')
+
+    # plt.show()
+    # plt.savefig("./train.png")
