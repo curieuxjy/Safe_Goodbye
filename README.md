@@ -60,13 +60,17 @@ type 2
 - [Scale invariant angle label](https://matplotlib.org/stable/gallery/text_labels_and_annotations/angle_annotation.html#sphx-glr-gallery-text-labels-and-annotations-angle-annotation-py)
 - [seaborn.histplot](https://seaborn.pydata.org/generated/seaborn.histplot.html)
 - [matplotlib barplot](https://rfriend.tistory.com/411)
+- [AngleAnnotation class](https://matplotlib.org/stable/gallery/text_labels_and_annotations/angle_annotation.html#sphx-glr-gallery-text-labels-and-annotations-angle-annotation-py)
 - [dealing with csv file](https://timetobye.github.io/csv_file_handler/)
 - [Keras data generator](https://stanford.edu/~shervine/blog/keras-how-to-generate-data-on-the-fly)
-- [https://chancoding.tistory.com/93](https://chancoding.tistory.com/93)
+- [Guide to the Functional API](https://keras.io/ko/getting-started/functional-api-guide/)
+- [DataGenerator](https://chancoding.tistory.com/93)
+- [Tensorflow Keras - 4 (자연어처리,감정분석)](https://datacook.tistory.com/53)
+- [Tensorborad]()
 
 ### Baseline
 - [Unified Framework for Pedestrian Detection & Intention Classification](https://github.com/mjpramirez/Volvo-DataX)
-- [FuSSI-Net: Fusion of Spatio-temporal Skeletons for Intention Prediction Network](https://matthew29tang.github.io/pid-model/#/)
+- [FuSSI-Net: Fusion of Spatio-temporal Skeletons for Intention Prediction Network](https://matthew29tang.github.io/pid-model/#/)s
 
 ### OD+Tracking
 - [Yolov5 + Deep Sort with PyTorch](https://github.com/mikel-brostrom/Yolov5_DeepSort_Pytorch)

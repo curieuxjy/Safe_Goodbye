@@ -160,3 +160,5 @@ if __name__ == "__main__":
     print(y_train.shape)
     print(x_test.shape)
     print(y_test.shape)
+    print(y_train[0])
+    # print(y_train.shape)

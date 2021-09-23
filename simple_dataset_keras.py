@@ -8,12 +8,12 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 class Bus_DataGenerator(Sequence):
-    def __init__(self, X, y, batch_size, dim, n_classes, shuffle = True):
+    def __init__(self, X, y, batch_size, dim, shuffle = True):
         self.X = X
         self.y = y if y is not None else y
         self.batch_size = batch_size
         self.dim = dim
-        self.n_classes = n_classes
+        # self.n_classes = n_classes
         self.shuffle = shuffle
         self.on_epoch_end()
         
@@ -33,8 +33,12 @@ class Bus_DataGenerator(Sequence):
             for i, (img, label) in enumerate(zip(X_list, y_list)):
                 X[i] = img
                 y[i] = label
+                # print(img)
+                # print(label)
+                # print(X[i])
+                # print(y[i])
                 
-            return X, to_categorical(y, num_classes = self.n_classes)
+            return X, y
         
         else:
             for i, img in enumerate(X_list):
@@ -48,7 +52,9 @@ class Bus_DataGenerator(Sequence):
         
         if self.y is not None:
             y_list = [self.y[k] for k in indexes]
+            # print(y_list)
             X, y = self.__data_generation(X_list, y_list)
+            # print(X, y)
             return X, y
         else:
             y_list = None
@@ -68,7 +74,7 @@ if __name__=="__main__":
     print(x_valid.shape)
     print(y_valid.shape)
 
-    dg = Bus_DataGenerator(x_train, y_train, BATCH, (MAX_LEN, 13), 2)
+    dg = Bus_DataGenerator(x_train, y_train, BATCH, (MAX_LEN, 13))
     print(dg.__len__)
     X_instance, y_instance = dg.__getitem__(0)
     # print(type(X_instance))
@@ -78,7 +84,7 @@ if __name__=="__main__":
     import matplotlib.pyplot as plt
 
     for i, (x, y) in enumerate(dg):
-        if(i <= 1):
+        if(i <= 10):
             x_first = x[0]
             plt.title(y[0])
             plt.imshow(x_first)
