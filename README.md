@@ -12,4 +12,4 @@
 설문 링크는 다음과 같습니다.
 자신의 생일일자 마지막이 홀수면 LINK1을, 짝수라면 LINK2로 들어가주세요.
 
-### [![](./assets/1.png)](https://4gamaoh9kn.cognition.run)  [![](./assets/2.png)](https://5yp89s8mb7.cognition.run) 
+### [![](./assets/l1.png)](https://4gamaoh9kn.cognition.run)  [![](./assets/l2.png)](https://5yp89s8mb7.cognition.run) 
