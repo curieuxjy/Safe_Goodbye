@@ -10,6 +10,6 @@
 - 사운드가 있으니 이어폰 착용을 권장해드리고 소리 조절 부탁드립니다.
 
 설문 링크는 다음과 같습니다.
-자신의 생일일자 마지막이 홀수면 LINK1을, 짝수라면 LINK2로 들어가주세요.
+자신의 생일이 있는 달의 숫자에 따라 선택하여 들어가주세요.
 
 ### [![](./assets/l1.png)](https://4gamaoh9kn.cognition.run)  [![](./assets/l2.png)](https://5yp89s8mb7.cognition.run) 
