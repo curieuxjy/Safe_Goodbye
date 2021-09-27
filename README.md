@@ -16,11 +16,9 @@
 자신의 **생일 달(Birth Month)의 숫자**에 따라 선택하여 들어가주세요.
 
 
-<img src="./assets/l1.png" align= "left"/>
+[<img src="./assets/l1.png" align= "left"/>](https://4gamaoh9kn.cognition.run)
 <img src="./assets/l2.png" align= "right"/>
 
-<p align= "right">
-  <img src="./assets/l2.png" />
-</p>
+
 
 ### [![](./assets/l1.png)](https://4gamaoh9kn.cognition.run)        [![](./assets/l2.png)](https://5yp89s8mb7.cognition.run) 
