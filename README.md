@@ -17,8 +17,5 @@
 
 
 [<img src="./assets/l1.png" align= "left"/>](https://4gamaoh9kn.cognition.run)
-<img src="./assets/l2.png" align= "right"/>
+[<img src="./assets/l2.png" align= "right"/>](https://5yp89s8mb7.cognition.run)
 
-
-
-### [![](./assets/l1.png)](https://4gamaoh9kn.cognition.run)        [![](./assets/l2.png)](https://5yp89s8mb7.cognition.run) 
