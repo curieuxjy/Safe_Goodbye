@@ -13,10 +13,7 @@
 
 ## 📊 Survey Link
 
-설문 링크는 다음과 같습니다.
+설문 링크는 다음 버튼을 눌러주세요.
 
-자신의 **생일 달(Birth Month)의 숫자**에 따라 선택하여 들어가주세요.
-
-[<img src="./assets/l1.png" align= "left"/>](https://4gamaoh9kn.cognition.run)
-[<img src="./assets/l2.png" align= "right"/>](https://5yp89s8mb7.cognition.run)
+[<img src="./assets/button.png" align= "left"/>](https://4gamaoh9kn.cognition.run)
 
