@@ -11,11 +11,11 @@
 - 모바일이 아닌 **노트북**이나 **데스크탑**으로 접속 해주세요.
 - 사운드가 있으니 이어폰 착용을 권장해드리고 **소리 조절** 부탁드립니다.
 
+### Go to Survey Link
+
 설문 링크는 다음과 같습니다.
 
 자신의 **생일 달(Birth Month)의 숫자**에 따라 선택하여 들어가주세요.
-
-### Go to Survey Link
 
 [<img src="./assets/l1.png" align= "left"/>](https://4gamaoh9kn.cognition.run)
 [<img src="./assets/l2.png" align= "right"/>](https://5yp89s8mb7.cognition.run)
