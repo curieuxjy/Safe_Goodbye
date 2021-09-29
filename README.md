@@ -13,7 +13,4 @@
 
 ## 📊 Survey Link
 
-설문 링크는 다음 버튼을 눌러주세요.
-
-[![](./assets/button.png)](https://4gamaoh9kn.cognition.run)
-
+This Survey is closed. Thanks for participaitng. :)
