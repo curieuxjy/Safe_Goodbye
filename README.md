@@ -1,5 +1,5 @@
 
-# Arrival_project
+# Safe Goodbye
 ![](./assets/poster.png)
 
 ## Dataset
