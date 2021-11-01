@@ -1,5 +1,6 @@
 
 # Safe Goodbye
+> TEAM: Arrival(Jungyeon Lee/Chaeeun Kim/Yookyung Jeong)
 ![](./assets/1.png)
 
 ## Dataset
