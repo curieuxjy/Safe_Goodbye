@@ -3,7 +3,7 @@
 > TEAM: Arrival(Jungyeon Lee/Chaeeun Kim/Yookyung Jeong)
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=q2jDdYABbmg" target="_blank">
- <img src="./assets/1.png" alt="Watch the video" />
+ <img src="./assets/new.png" alt="Watch the video" />
 </a>
 
 ## Dataset
