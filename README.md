@@ -4,7 +4,9 @@
 
 ![](./assets/1.png)
 
-- [YouTube](https://youtu.be/p3oiDHTKo8k)
+[![Watch the video](https://youtu.be/q2jDdYABbmg/default.jpg)](https://youtu.be/q2jDdYABbmg)
+
+- [YouTube](https://youtu.be/q2jDdYABbmg)
 
 ## Dataset
 ### [자율주행 - 버스 승객 승하차 영상](https://aihub.or.kr/aidata/34166) : Camera C (General C)
