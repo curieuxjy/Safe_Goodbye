@@ -8,6 +8,10 @@
 
 - [YouTube](https://youtu.be/q2jDdYABbmg)
 
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=q2jDdYABbmg" target="_blank">
+ <img src="http://img.youtube.com/vi/q2jDdYABbmg/mqdefault.jpg" alt="Watch the video" width="240" height="180" border="10" />
+</a>
+
 ## Dataset
 ### [자율주행 - 버스 승객 승하차 영상](https://aihub.or.kr/aidata/34166) : Camera C (General C)
 - Removed List
