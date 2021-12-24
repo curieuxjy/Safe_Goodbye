@@ -3,7 +3,7 @@
 > TEAM: Arrival(Jungyeon Lee/Chaeeun Kim/Yookyung Jeong)
 
 ### If you click the image below, you can see the presentation video on Youtube.
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=q2jDdYABbmg" target="_blank">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=c0wNo1Aobyw" target="_blank">
  <img src="./assets/new.png" alt="Watch the video" />
 </a>
 
@@ -96,6 +96,3 @@ type 2
 - [Deep High-Resolution Representation Learning for Human Pose Estimation (CVPR 2019)](https://github.com/leoxiaobin/deep-high-resolution-net.pytorch)
 - [Multi Person PoseEstimation By PyTorch](https://github.com/tensorboy/pytorch_Realtime_Multi-Person_Pose_Estimation)
     - `python Demo_video.py -backbone {CMU or Mobilenet} -video {video path} -scale {scale to image} -show {}`
-
-### ETC
-- [2021 인공지능 데이터 기반 서비스 공모전(09.15~10.08)](http://aihub-competition.or.kr/aidea)
