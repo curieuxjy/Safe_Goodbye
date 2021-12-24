@@ -2,6 +2,7 @@
 # Safe Goodbye
 > TEAM: Arrival(Jungyeon Lee/Chaeeun Kim/Yookyung Jeong)
 
+### If you click the image below, you can see the presentation video on Youtube.
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=q2jDdYABbmg" target="_blank">
  <img src="./assets/new.png" alt="Watch the video" />
 </a>
